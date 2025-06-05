@@ -1,6 +1,6 @@
 # CI de Nível 01 - Disparo manual a partir de 1 clique
 # nome do nosso 'pipeline'
-name: 'Execução Manual'
+name: 'Execução Manual e coleta de cobertura'
 # regras de disparo (gatilhos/triggers)
 # gatilho de exec manual = workflow_dispatch
 on:
@@ -8,29 +8,30 @@ on:
 # trabalhos/tarefas dentro do pipeline = jobs
 jobs:
   e2e-tests:
-  
-    #maquina que o job vai executar
     runs-on: ubuntu-latest
-    # passos do script de build
     steps: 
       # clone do projeto
       - uses: actions/checkout@v4
-      # instalação do node
+      # Node install
       - uses: actions/setup-node@v4
         with:
           node-version: latest
-      # instalação do Yarn
-      - name: Instalando Yarn
+      - name: Yarn install
         run: npm install -g yarn
       
-      # instalação das dependências
-      - name: Instalando dependências
+      - name: Dependencies install
         run: yarn
       
-      # instalação do Playwright
-      - name: Instalando Playwright
+      - name: Playwright install
         run: yarn playwright install
-      
-      # executar os testes e2e
-      - name: Executando Testes E2E
+
+      - name: Run Unit tests
+        run: npx jest --coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Running E2E tests
         run: yarn run e2e
