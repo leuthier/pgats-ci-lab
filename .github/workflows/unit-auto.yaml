@@ -6,13 +6,13 @@ on:
     paths-ignore:
       - '**.yaml'
       - '**.md'
-      - 'azure/**'
+      - 'azure-workflows'
   pull_request:
     branches: [main]
     paths-ignore:
       - '**.yaml'
       - '**.md'
-      - 'azure/**'
+      - 'azure-workflows'
 
 jobs:
   unit-auto:
