@@ -1,7 +1,7 @@
 # CI de Nível 03 - Disparo após outra action
 
 # Nome do nosso 'pipeline'
-name: 'E2E - trigger'
+name: 'Post deploy'
 
 # Regras de disparo (gatilho/triggers)
 # Gatilho de exec a partir de um outro pipe = workflow_run
