@@ -11,8 +11,7 @@ parameters:
     type: string
 
 steps:
-    #- task: Bash@3 # Linux - Hosted by Microsoft
-    - task: PowerShell@2 # Self-hosted on Windows
+    - task: Bash@3 # Linux - Hosted by Microsoft or self-hosted Windows with gitbash on Path
       displayName: 'Send Discord notification'
       condition: always()
       inputs:
