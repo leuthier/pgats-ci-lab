@@ -6,11 +6,13 @@ on:
     paths-ignore:
       - '**.yaml'
       - '**.md'
+      - 'azure/**'
   pull_request:
     branches: [main]
     paths-ignore:
       - '**.yaml'
       - '**.md'
+      - 'azure/**'
 
 jobs:
   unit-auto:
