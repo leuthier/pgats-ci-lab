@@ -16,7 +16,7 @@ steps:
   - script: yarn run test
     displayName: 'Run tests'
 
-  - template: send-discord-notification.yaml
+  - template: discord-notification.yaml
     parameters:
       status: $(Build.Status)
       definitionName: $(Build.DefinitionName)
