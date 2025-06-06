@@ -1,0 +1,26 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: 'Default'
+
+jobs:
+- job: RunTests
+  displayName: 'Run Unit Tests'
+  steps:
+    - template: unit-auto.yaml
+
+- job: SendNotification
+  displayName: 'Send Discord Notification'
+  dependsOn: RunTests
+  condition: always()
+  steps:
+    - template: sdiscord-notification.yaml
+      parameters:
+        status: $[ dependencies.RunTests.result ]
+        definitionName: $(Build.DefinitionName)
+        branch: $(Build.SourceBranchName)
+        buildId: $(Build.BuildId)
+        projectUri: $(System.TeamFoundationCollectionUri)$(System.TeamProject)/

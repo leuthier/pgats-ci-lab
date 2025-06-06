@@ -13,6 +13,7 @@ parameters:
 steps:
     - task: Bash@3 # Linux - Hosted by Microsoft or self-hosted Windows with gitbash on Path
       displayName: 'Send Discord notification'
+      dependsOn: unit-auto.yaml
       condition: always()
       inputs:
         targetType: 'inline'
