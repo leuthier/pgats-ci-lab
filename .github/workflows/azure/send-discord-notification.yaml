@@ -17,15 +17,19 @@ steps:
       inputs:
         targetType: 'inline'
         script: |
-          if [ "${{ parameters.status }}" == "Succeeded" ]; then
-            STATUS="✅ Build succeeded"
-          else
-            STATUS="❌ Build failed"
-          fi
+            export LANG=C.UTF-8
+            export LC_ALL=C.UTF-8
 
-          curl -H "Content-Type: application/json" \
-              -X POST \
-              -d "{\"content\": \"📦 *Pipeline:* ${{ parameters.definitionName }}\n🔀 *Branch:* ${{ parameters.branch }}\n💬 *Status:* $STATUS\n🔗 *Link:* ${{ parameters.projectUri }}_build/results?buildId=${{ parameters.buildId }}\"}" \
-              "$DISCORD_WEBHOOK_URL"
+            if [ "${{ parameters.status }}" == "Succeeded" ]; then
+                STATUS="✅ Build succeeded"
+            else
+                STATUS="❌ Build failed"
+            fi
+
+            curl -H "Content-Type: application/json; charset=utf-8" \
+                -X POST \
+                -d "{\"content\": \"📦 *Pipeline:* ${{ parameters.definitionName }}\n🔀 *Branch:* ${{ parameters.branch }}\n💬 *Status:* $STATUS\n🔗 *Link:* ${{ parameters.projectUri }}_build/results?buildId=${{ parameters.buildId }}\"}" \
+                "$DISCORD_WEBHOOK_URL"
+
       env:
         DISCORD_WEBHOOK_URL: $(DISCORD_WEBHOOK_URL)
