@@ -26,10 +26,16 @@ steps:
                 STATUS="❌ Build failed"
             fi
 
+            MESSAGE="📦 *Pipeline:* $DEFINITION_NAME\n🔀 *Branch:* $BRANCH\n💬 *Status:* $STATUS\n🔗 *Link:* ${PROJECT_URI}_build/results?buildId=$BUILD_ID"
+
             curl -H "Content-Type: application/json; charset=utf-8" \
                 -X POST \
-                -d "{\"content\": \"📦 *Pipeline:* ${{ parameters.definitionName }}\n🔀 *Branch:* ${{ parameters.branch }}\n💬 *Status:* $STATUS\n🔗 *Link:* ${{ parameters.projectUri }}_build/results?buildId=${{ parameters.buildId }}\"}" \
+                -d "{\"content\": \"$MESSAGE\"}" \
                 "$DISCORD_WEBHOOK_URL"
-
-      env:
-        DISCORD_WEBHOOK_URL: $(DISCORD_WEBHOOK_URL)
+        env:
+          DISCORD_WEBHOOK_URL: $(DISCORD_WEBHOOK_URL)
+          STATUS_PARAM: ${{ parameters.status }}
+          DEFINITION_NAME: ${{ parameters.definitionName }}
+          BRANCH: ${{ parameters.branch }}
+          BUILD_ID: ${{ parameters.buildId }}
+          PROJECT_URI: ${{ parameters.projectUri }}
